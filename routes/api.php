@@ -13,12 +13,19 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+/*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/
 
-Route::get('book', 'BooksController@getAll');
-Route::get('book/{isbn}', 'BooksController@getBookByISBN');
-Route::post('book', 'BooksController@create');
-Route::put('book/{id}', 'BooksController@update');
-Route::delete('book/{id}', 'BooksController@delete');
+Route::post('login', 'API\UserController@login');
+Route::post('register', 'API\UserController@register');
+Route::group(['middleware' => 'auth:api'], function(){
+    Route::post('details', 'API\UserController@details');
+    Route::get('book', 'BooksController@getAll');
+    Route::post('book', 'BooksController@create');
+    Route::get('book', 'BooksController@getAll');
+    Route::get('book/{isbn}', 'BooksController@getBookByISBN');
+    Route::post('book', 'BooksController@create');
+    Route::put('book/{id}', 'BooksController@update');
+    Route::delete('book/{id}', 'BooksController@delete');
+});
